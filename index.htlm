@@ -1,987 +1,356 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-    <meta name="robots" content="noindex">
-    <title>Journal HER DECODE</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <style>
-    :root {
-        --bg: #F7F6FB;
-        --card: #FFFFFF;
-        --ink: #16131F;
-        --muted: #6B6680;
-        --line: #E6E3EF;
-        --accent: #6D28D9;
-        --accent-soft: #F1EBFF;
-        --accent-ink: #4C1D95;
-        --on-accent: #FFFFFF;
-        --warn-bg: #FFF6EC;
-        --warn-line: #F4C38B;
-        --warn-ink: #8A3B0B;
-        --info-bg: #EEF3FF;
-        --info-line: #BFD0FB;
-        --info-ink: #1E3A8A;
-        --ok-bg: #ECFDF3;
-        --ok-line: #A7E3BF;
-        --ok-ink: #14532D;
-    }
-
-    @media (prefers-color-scheme: dark) {
-        :root:not([data-theme="light"]) {
-            color-scheme: dark;
-            --bg: #0F0D16;
-            --card: #17141F;
-            --ink: #ECEAF3;
-            --muted: #A29DB5;
-            --line: #2A2536;
-            --accent: #A78BFA;
-            --accent-soft: #241C38;
-            --accent-ink: #DDD2FF;
-            --on-accent: #140F22;
-            --warn-bg: #2A1B0E;
-            --warn-line: #6B3F16;
-            --warn-ink: #F7C08A;
-            --info-bg: #121B30;
-            --info-line: #2B3E6B;
-            --info-ink: #BFD0FB;
-            --ok-bg: #0F2419;
-            --ok-line: #1F5A38;
-            --ok-ink: #A7E3BF;
-        }
-    }
-
-    :root[data-theme="dark"] {
-        color-scheme: dark;
-        --bg: #0F0D16;
-        --card: #17141F;
-        --ink: #ECEAF3;
-        --muted: #A29DB5;
-        --line: #2A2536;
-        --accent: #A78BFA;
-        --accent-soft: #241C38;
-        --accent-ink: #DDD2FF;
-        --on-accent: #140F22;
-        --warn-bg: #2A1B0E;
-        --warn-line: #6B3F16;
-        --warn-ink: #F7C08A;
-        --info-bg: #121B30;
-        --info-line: #2B3E6B;
-        --info-ink: #BFD0FB;
-        --ok-bg: #0F2419;
-        --ok-line: #1F5A38;
-        --ok-ink: #A7E3BF;
-    }
-
-    * {
-        box-sizing: border-box
-    }
-
-    [hidden] {
-        display: none !important
-    }
-
-    body {
-        margin: 0;
-        background: var(--bg);
-        color: var(--ink);
-        font-family: Inter, system-ui, -apple-system, "Segoe UI", sans-serif;
-        font-size: 15px;
-        line-height: 1.55
-    }
-
-    h1, h2, h3 {
-        text-wrap: balance;
-        margin: 0
-    }
-
-    .label {
-        font-size: 11px;
-        font-weight: 700;
-        letter-spacing: .14em;
-        text-transform: uppercase
-    }
-
-    .hero {
-        background: linear-gradient(140deg, #1b1430 0%, #111827 100%);
-        color: #fff;
-        position: relative;
-        overflow: hidden;
-        padding-block: 36px 30px;
-        padding-inline: 16px
-    }
-
-    .hero::after {
-        content: "";
-        position: absolute;
-        width: 360px;
-        height: 360px;
-        border-radius: 50%;
-        background: radial-gradient(circle, rgba(139, 92, 246, .42), transparent 65%);
-        top: -150px;
-        right: -110px;
-        pointer-events: none
-    }
-
-    .hero .in {
-        position: relative;
-        z-index: 1;
-        max-width: 720px;
-        margin: 0 auto;
-        display: grid;
-        gap: 10px
-    }
-
-    .hero .label {
-        color: #C4B5FD
-    }
-
-    .hero h1 {
-        font-size: clamp(26px, 6vw, 36px);
-        line-height: 1.1;
-        font-weight: 800
-    }
-
-    .hero p {
-        margin: 0;
-        color: #D6D3E0;
-        max-width: 34em
-    }
-
-    .wrap {
-        max-width: 720px;
-        margin: 0 auto;
-        padding-inline: 16px;
-        padding-block: 20px 48px;
-        display: grid;
-        gap: 22px
-    }
-
-    .card {
-        background: var(--card);
-        border: 1px solid var(--line);
-        border-radius: 14px;
-        padding: 18px;
-        display: grid;
-        gap: 14px
-    }
-
-    .card h2 {
-        font-size: 18px;
-        font-weight: 800
-    }
-
-    .muted {
-        color: var(--muted)
-    }
-
-    .small {
-        font-size: 13px
-    }
-
-    .callout {
-        border: 1px solid;
-        border-radius: 12px;
-        padding: 12px 14px;
-        display: grid;
-        gap: 4px;
-        font-size: 14px
-    }
-
-    .callout .label {
-        font-size: 10.5px
-    }
-
-    .c-warn {
-        background: var(--warn-bg);
-        border-color: var(--warn-line);
-        color: var(--warn-ink)
-    }
-
-    .c-info {
-        background: var(--info-bg);
-        border-color: var(--info-line);
-        color: var(--info-ink)
-    }
-
-    .c-ok {
-        background: var(--ok-bg);
-        border-color: var(--ok-line);
-        color: var(--ok-ink)
-    }
-
-    .c-accent {
-        background: var(--accent-soft);
-        border-color: var(--line);
-        color: var(--accent-ink)
-    }/* cycle status */
-    .status {
-        display: flex;
-        align-items: center;
-        gap: 14px;
-        flex-wrap: wrap
-    }
-
-    .daybig {
-        font-size: 40px;
-        font-weight: 800;
-        color: var(--accent);
-        line-height: 1;
-        font-variant-numeric: tabular-nums
-    }
-
-    .status .txt {
-        display: grid;
-        gap: 2px;
-        flex: 1;
-        min-width: 160px
-    }/* form */
-    .field {
-        display: grid;
-        gap: 6px
-    }
-
-    .field > span {
-        font-size: 13px;
-        font-weight: 600
-    }
-
-    .field > span em {
-        font-style: normal;
-        font-weight: 400;
-        color: var(--muted)
-    }
-
-    .row2 {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 12px
-    }
-
-    @media (max-width: 440px) {
-        .row2 {
-            grid-template-columns: 1fr
-        }
-    }
-
-    input[type=text], input[type=date], input[type=number], textarea, select {
-        font: inherit;
-        font-size: 16px;
-        width: 100%;
-        padding: 10px 12px;
-        border: 1px solid var(--line);
-        border-radius: 10px;
-        background: var(--bg);
-        color: var(--ink)
-    }
-
-    textarea {
-        resize: vertical;
-        min-height: 70px;
-        font-size: 14px
-    }
-
-    input:focus-visible, textarea:focus-visible, select:focus-visible, button:focus-visible {
-        outline: 2px solid var(--accent);
-        outline-offset: 2px
-    }
-
-    .chips {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 6px
-    }
-
-    .chip {
-        font: inherit;
-        font-size: 14px;
-        font-weight: 600;
-        min-width: 42px;
-        padding: 8px 12px;
-        border-radius: 999px;
-        border: 1px solid var(--line);
-        background: var(--card);
-        color: var(--ink);
-        cursor: pointer
-    }
-
-    .chip[aria-pressed="true"] {
-        background: var(--accent);
-        border-color: var(--accent);
-        color: var(--on-accent)
-    }
-
-    .scale-hint {
-        display: flex;
-        justify-content: space-between;
-        font-size: 11.5px;
-        color: var(--muted)
-    }
-
-    .btn {
-        font: inherit;
-        font-weight: 700;
-        font-size: 15px;
-        padding: 12px 16px;
-        border-radius: 10px;
-        border: 1px solid var(--accent);
-        background: var(--card);
-        color: var(--accent);
-        cursor: pointer
-    }
-
-    .btn.pri {
-        background: var(--accent);
-        color: var(--on-accent)
-    }
-
-    .btn.ghost {
-        border-color: var(--line);
-        color: var(--ink)
-    }
-
-    .btn.sm {
-        font-size: 13px;
-        padding: 8px 12px
-    }
-
-    .actions {
-        display: flex;
-        gap: 8px;
-        flex-wrap: wrap
-    }
-
-    .toast {
-        font-size: 14px;
-        font-weight: 600;
-        color: var(--ok-ink)
-    }/* entries */
-    .cycle-h {
-        display: flex;
-        justify-content: space-between;
-        align-items: baseline;
-        gap: 8px;
-        padding-top: 4px
-    }
-
-    .cycle-h h3 {
-        font-size: 15px;
-        font-weight: 800
-    }
-
-    .entry {
-        border: 1px solid var(--line);
-        border-radius: 12px;
-        padding: 12px;
-        display: grid;
-        gap: 8px
-    }
-
-    .entry.example {
-        border-style: dashed
-    }
-
-    .e-top {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        flex-wrap: wrap
-    }
-
-    .jpill {
-        background: var(--accent-soft);
-        color: var(--accent-ink);
-        font-weight: 800;
-        font-size: 13px;
-        padding: 4px 10px;
-        border-radius: 999px;
-        font-variant-numeric: tabular-nums
-    }
-
-    .e-top b {
-        font-size: 14px
-    }
-
-    .e-top .date {
-        font-size: 13px;
-        color: var(--muted);
-        margin-left: auto
-    }
-
-    .metrics {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 6px
-    }
-
-    .m {
-        font-size: 12.5px;
-        border: 1px solid var(--line);
-        border-radius: 8px;
-        padding: 3px 8px;
-        font-variant-numeric: tabular-nums
-    }
-
-    .m i {
-        font-style: normal;
-        color: var(--muted)
-    }
-
-    .e-note {
-        font-size: 13.5px;
-        color: var(--muted)
-    }
-
-    .del {
-        font: inherit;
-        font-size: 12.5px;
-        background: none;
-        border: 0;
-        color: var(--muted);
-        cursor: pointer;
-        padding: 0;
-        text-decoration: underline
-    }
-
-    .confirm {
-        display: flex;
-        gap: 8px;
-        align-items: center;
-        flex-wrap: wrap;
-        font-size: 13px
-    }
-
-    details {
-        border: 1px solid var(--line);
-        border-radius: 12px;
-        background: var(--card)
-    }
-
-    details summary {
-        cursor: pointer;
-        padding: 14px 16px;
-        font-weight: 700;
-        list-style: none;
-        display: flex;
-        justify-content: space-between;
-        gap: 10px
-    }
-
-    details summary::after {
-        content: "+";
-        color: var(--accent);
-        font-weight: 800
-    }
-
-    details[open] summary::after {
-        content: "–"
-    }
-
-    details .body {
-        padding: 0 16px 16px;
-        display: grid;
-        gap: 10px;
-        font-size: 14px
-    }
-
-    ol.how {
-        margin: 0;
-        padding-left: 20px;
-        display: grid;
-        gap: 4px
-    }
-
-    footer {
-        display: flex;
-        justify-content: space-between;
-        flex-wrap: wrap;
-        gap: 8px;
-        border-top: 1px solid var(--line);
-        padding-top: 16px;
-        font-size: 13px;
-        color: var(--muted)
-    }
-
-    footer b {
-        color: var(--ink)
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-        * {
-            transition: none !important
-        }
-    }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex">
+<title>Journal HER DECODE</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#F7F6FB; --card:#FFFFFF; --ink:#16131F; --muted:#6B6680; --line:#E6E3EF;
+  --accent:#6D28D9; --accent-soft:#F1EBFF; --accent-ink:#4C1D95; --on-accent:#FFFFFF;
+  --warn-bg:#FFF6EC; --warn-line:#F4C38B; --warn-ink:#8A3B0B;
+  --info-bg:#EEF3FF; --info-line:#BFD0FB; --info-ink:#1E3A8A;
+  --ok-bg:#ECFDF3; --ok-line:#A7E3BF; --ok-ink:#14532D;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    color-scheme:dark;
+    --bg:#0F0D16; --card:#17141F; --ink:#ECEAF3; --muted:#A29DB5; --line:#2A2536;
+    --accent:#A78BFA; --accent-soft:#241C38; --accent-ink:#DDD2FF; --on-accent:#140F22;
+    --warn-bg:#2A1B0E; --warn-line:#6B3F16; --warn-ink:#F7C08A;
+    --info-bg:#121B30; --info-line:#2B3E6B; --info-ink:#BFD0FB;
+    --ok-bg:#0F2419; --ok-line:#1F5A38; --ok-ink:#A7E3BF;
+  }
+}
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --bg:#0F0D16; --card:#17141F; --ink:#ECEAF3; --muted:#A29DB5; --line:#2A2536;
+  --accent:#A78BFA; --accent-soft:#241C38; --accent-ink:#DDD2FF; --on-accent:#140F22;
+  --warn-bg:#2A1B0E; --warn-line:#6B3F16; --warn-ink:#F7C08A;
+  --info-bg:#121B30; --info-line:#2B3E6B; --info-ink:#BFD0FB;
+  --ok-bg:#0F2419; --ok-line:#1F5A38; --ok-ink:#A7E3BF;
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif;font-size:15px;line-height:1.55}
+h1,h2,h3{text-wrap:balance;margin:0}
+.label{font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase}
+
+.hero{background:linear-gradient(140deg,#1b1430 0%,#111827 100%);color:#fff;position:relative;overflow:hidden;padding-block:36px 30px;padding-inline:16px}
+.hero::after{content:"";position:absolute;width:360px;height:360px;border-radius:50%;background:radial-gradient(circle,rgba(139,92,246,.42),transparent 65%);top:-150px;right:-110px;pointer-events:none}
+.hero .in{position:relative;z-index:1;max-width:720px;margin:0 auto;display:grid;gap:10px}
+.hero .label{color:#C4B5FD}
+.hero h1{font-size:clamp(26px,6vw,36px);line-height:1.1;font-weight:800}
+.hero p{margin:0;color:#D6D3E0;max-width:34em}
+
+.wrap{max-width:720px;margin:0 auto;padding-inline:16px;padding-block:20px 48px;display:grid;gap:22px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px;display:grid;gap:14px}
+.card h2{font-size:18px;font-weight:800}
+.muted{color:var(--muted)}
+.small{font-size:13px}
+
+.callout{border:1px solid;border-radius:12px;padding:12px 14px;display:grid;gap:4px;font-size:14px}
+.callout .label{font-size:10.5px}
+.c-warn{background:var(--warn-bg);border-color:var(--warn-line);color:var(--warn-ink)}
+.c-info{background:var(--info-bg);border-color:var(--info-line);color:var(--info-ink)}
+.c-ok{background:var(--ok-bg);border-color:var(--ok-line);color:var(--ok-ink)}
+.c-accent{background:var(--accent-soft);border-color:var(--line);color:var(--accent-ink)}
+
+/* cycle status */
+.status{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.daybig{font-size:40px;font-weight:800;color:var(--accent);line-height:1;font-variant-numeric:tabular-nums}
+.status .txt{display:grid;gap:2px;flex:1;min-width:160px}
+
+/* form */
+.field{display:grid;gap:6px}
+.field > span{font-size:13px;font-weight:600}
+.field > span em{font-style:normal;font-weight:400;color:var(--muted)}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media (max-width:440px){.row2{grid-template-columns:1fr}}
+input[type=text],input[type=date],input[type=number],textarea,select{font:inherit;font-size:16px;width:100%;padding:10px 12px;border:1px solid var(--line);border-radius:10px;background:var(--bg);color:var(--ink)}
+textarea{resize:vertical;min-height:70px;font-size:14px}
+input:focus-visible,textarea:focus-visible,select:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{font:inherit;font-size:14px;font-weight:600;min-width:42px;padding:8px 12px;border-radius:999px;border:1px solid var(--line);background:var(--card);color:var(--ink);cursor:pointer}
+.chip[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:var(--on-accent)}
+.scale-hint{display:flex;justify-content:space-between;font-size:11.5px;color:var(--muted)}
+
+.btn{font:inherit;font-weight:700;font-size:15px;padding:12px 16px;border-radius:10px;border:1px solid var(--accent);background:var(--card);color:var(--accent);cursor:pointer}
+.btn.pri{background:var(--accent);color:var(--on-accent)}
+.btn.ghost{border-color:var(--line);color:var(--ink)}
+.btn.sm{font-size:13px;padding:8px 12px}
+.actions{display:flex;gap:8px;flex-wrap:wrap}
+.toast{font-size:14px;font-weight:600;color:var(--ok-ink)}
+
+/* entries */
+.cycle-h{display:flex;justify-content:space-between;align-items:baseline;gap:8px;padding-top:4px}
+.cycle-h h3{font-size:15px;font-weight:800}
+.entry{border:1px solid var(--line);border-radius:12px;padding:12px;display:grid;gap:8px}
+.entry.example{border-style:dashed}
+.e-top{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.jpill{background:var(--accent-soft);color:var(--accent-ink);font-weight:800;font-size:13px;padding:4px 10px;border-radius:999px;font-variant-numeric:tabular-nums}
+.e-top b{font-size:14px}
+.e-top .date{font-size:13px;color:var(--muted);margin-left:auto}
+.metrics{display:flex;flex-wrap:wrap;gap:6px}
+.m{font-size:12.5px;border:1px solid var(--line);border-radius:8px;padding:3px 8px;font-variant-numeric:tabular-nums}
+.m i{font-style:normal;color:var(--muted)}
+.e-note{font-size:13.5px;color:var(--muted)}
+.del{font:inherit;font-size:12.5px;background:none;border:0;color:var(--muted);cursor:pointer;padding:0;text-decoration:underline}
+.confirm{display:flex;gap:8px;align-items:center;flex-wrap:wrap;font-size:13px}
+
+details{border:1px solid var(--line);border-radius:12px;background:var(--card)}
+details summary{cursor:pointer;padding:14px 16px;font-weight:700;list-style:none;display:flex;justify-content:space-between;gap:10px}
+details summary::after{content:"+";color:var(--accent);font-weight:800}
+details[open] summary::after{content:"–"}
+details .body{padding:0 16px 16px;display:grid;gap:10px;font-size:14px}
+ol.how{margin:0;padding-left:20px;display:grid;gap:4px}
+
+footer{display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;border-top:1px solid var(--line);padding-top:16px;font-size:13px;color:var(--muted)}
+footer b{color:var(--ink)}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
 </head>
 <body>
 
-    <header class="hero">
-        <div class="in">
-            <span class="label">HER DECODE · Saison 1 · Épisode 2</span>
-            <h1>Ton journal cycle × entraînement</h1>
-            <p>Pas un protocole. Un outil pour collecter tes données à toi, séance après séance, sur 2 à 3 cycles.</p>
+<header class="hero">
+  <div class="in">
+    <span class="label">HER DECODE · Saison 1 · Épisode 2</span>
+    <h1>Ton journal cycle × entraînement</h1>
+    <p>Pas un protocole. Un outil pour collecter tes données à toi, séance après séance, sur 2 à 3 cycles.</p>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <div class="callout c-warn" id="igBanner" hidden>
+    <span class="label">Tu es dans Instagram</span>
+    <span>Ici, tes données risquent de ne pas être gardées. Touche <b>•••</b> en haut à droite, puis <b>Ouvrir dans le navigateur</b> (Safari ou Chrome).</span>
+  </div>
+  <div class="callout c-warn" id="noStore" hidden>
+    <span class="label">Sauvegarde impossible</span>
+    <span>Ton navigateur bloque l'enregistrement (navigation privée ?). Tu peux remplir, mais rien ne sera gardé à la fermeture. Ouvre la page dans une fenêtre normale.</span>
+  </div>
+
+  <!-- CYCLE -->
+  <section class="card" aria-labelledby="cycleTitle">
+    <h2 id="cycleTitle">Ton cycle en cours</h2>
+    <div id="cycleSetup" class="field" hidden>
+      <span>Premier jour de tes dernières règles <em>(= J1)</em></span>
+      <input type="date" id="firstJ1">
+      <button class="btn pri" id="saveJ1">Démarrer mon journal</button>
+    </div>
+    <div id="cycleNow" hidden>
+      <div class="status">
+        <div class="daybig" id="dayNum">J1</div>
+        <div class="txt">
+          <b id="cycleLabel">Cycle 1</b>
+          <span class="muted small" id="cycleSince">Commencé le …</span>
         </div>
-    </header>
+      </div>
+      <div class="actions" style="margin-top:12px">
+        <button class="btn ghost sm" id="newCycleBtn">Mes règles ont commencé aujourd'hui</button>
+      </div>
+      <div class="confirm" id="newCycleConfirm" hidden style="margin-top:8px">
+        <span>Démarrer le cycle suivant aujourd'hui ?</span>
+        <button class="btn pri sm" id="newCycleYes">Oui</button>
+        <button class="btn ghost sm" id="newCycleNo">Annuler</button>
+      </div>
+    </div>
+  </section>
 
-    <main class="wrap">
+  <!-- FORM -->
+  <section class="card" aria-labelledby="formTitle">
+    <h2 id="formTitle">Ajouter ma séance</h2>
+    <p class="muted small" style="margin:0">30 secondes, juste après l'entraînement. Seule la date est obligatoire.</p>
+    <form id="f" novalidate style="display:grid;gap:14px">
+      <div class="row2">
+        <label class="field"><span>Date</span><input type="date" id="fDate" required></label>
+        <label class="field"><span>Séance <em>(facultatif)</em></span><input type="text" id="fSeance" placeholder="Bas du corps, cardio…"></label>
+      </div>
+      <div class="field"><span>Perf par rapport à d'habitude</span><div class="chips" data-k="perf" data-opts="−|=|+"></div></div>
+      <div class="field"><span>Effort ressenti (RPE)</span><div class="chips" data-k="rpe" data-opts="1|2|3|4|5|6|7|8|9|10"></div><div class="scale-hint"><span>facile</span><span>max</span></div></div>
+      <div class="field"><span>Énergie</span><div class="chips" data-k="energie" data-opts="1|2|3|4|5"></div><div class="scale-hint"><span>vide</span><span>au top</span></div></div>
+      <div class="field"><span>Courbatures</span><div class="chips" data-k="courb" data-opts="1|2|3|4|5"></div><div class="scale-hint"><span>aucune</span><span>fortes</span></div></div>
+      <div class="row2">
+        <label class="field"><span>Sommeil la nuit d'avant <em>(h)</em></span><input type="number" id="fSommeil" inputmode="decimal" step="0.5" min="0" max="14" placeholder="7"></label>
+        <div class="field"><span>Règles aujourd'hui</span><div class="chips" data-k="regles" data-opts="Oui|Non|Spotting"></div></div>
+      </div>
+      <label class="field"><span>Note <em>(stress, maladie, repas raté, déplacement…)</em></span><textarea id="fNote"></textarea></label>
+      <div class="actions"><button class="btn pri" type="submit">Enregistrer la séance</button><span class="toast" id="toast" aria-live="polite"></span></div>
+    </form>
+  </section>
 
-        <div class="callout c-warn" id="igBanner" hidden>
-            <span class="label">Tu es dans Instagram</span>
-            <span>
-                Ici, tes données risquent de ne pas être gardées. Touche 
-                <b>•••</b>
-                 en haut à droite, puis 
-                <b>Ouvrir dans le navigateur</b>
-                 (Safari ou Chrome).
-            </span>
-        </div>
-        <div class="callout c-warn" id="noStore" hidden>
-            <span class="label">Sauvegarde impossible</span>
-            <span>Ton navigateur bloque l'enregistrement (navigation privée ?). Tu peux remplir, mais rien ne sera gardé à la fermeture. Ouvre la page dans une fenêtre normale.</span>
-        </div>
+  <!-- ENTRIES -->
+  <section class="card" aria-labelledby="listTitle">
+    <h2 id="listTitle">Mes séances</h2>
+    <div id="list" style="display:grid;gap:10px"></div>
+  </section>
 
-        <!-- CYCLE -->
-        <section class="card" aria-labelledby="cycleTitle">
-            <h2 id="cycleTitle">Ton cycle en cours</h2>
-            <div id="cycleSetup" class="field" hidden>
-                <span>
-                    Premier jour de tes dernières règles 
-                    <em>(= J1)</em>
-                </span>
-                <input type="date" id="firstJ1">
-                <button class="btn pri" id="saveJ1">Démarrer mon journal</button>
-            </div>
-            <div id="cycleNow" hidden>
-                <div class="status">
-                    <div class="daybig" id="dayNum">J1</div>
-                    <div class="txt">
-                        <b id="cycleLabel">Cycle 1</b>
-                        <span class="muted small" id="cycleSince">Commencé le …</span>
-                    </div>
-                </div>
-                <div class="actions" style="margin-top:12px">
-                    <button class="btn ghost sm" id="newCycleBtn">Mes règles ont commencé aujourd'hui</button>
-                </div>
-                <div class="confirm" id="newCycleConfirm" hidden style="margin-top:8px">
-                    <span>Démarrer le cycle suivant aujourd'hui ?</span>
-                    <button class="btn pri sm" id="newCycleYes">Oui</button>
-                    <button class="btn ghost sm" id="newCycleNo">Annuler</button>
-                </div>
-            </div>
-        </section>
+  <div class="callout c-info">
+    <span class="label">Ne conclus rien avant 2 cycles</span>
+    <span>Une mauvaise séance n'est pas une tendance. On cherche ce qui se répète chez toi. Comment lire tes données, c'est l'épisode 5.</span>
+  </div>
+  <div class="callout c-warn">
+    <span class="label">Ce journal observe, il ne diagnostique pas</span>
+    <span>Si tes règles disparaissent, deviennent très irrégulières, ou si la douleur t'empêche de t'entraîner, n'essaie pas de l'interpréter seule : parles-en à un médecin.</span>
+  </div>
 
-        <!-- FORM -->
-        <section class="card" aria-labelledby="formTitle">
-            <h2 id="formTitle">Ajouter ma séance</h2>
-            <p class="muted small" style="margin:0">30 secondes, juste après l'entraînement. Seule la date est obligatoire.</p>
-            <form id="f" novalidate style="display:grid;gap:14px">
-                <div class="row2">
-                    <label class="field">
-                        <span>Date</span>
-                        <input type="date" id="fDate" required>
-                    </label>
-                    <label class="field">
-                        <span>
-                            Séance 
-                            <em>(facultatif)</em>
-                        </span>
-                        <input type="text" id="fSeance" placeholder="Bas du corps, cardio…">
-                    </label>
-                </div>
-                <div class="field">
-                    <span>Perf par rapport à d'habitude</span>
-                    <div class="chips" data-k="perf" data-opts="−|=|+"></div>
-                </div>
-                <div class="field">
-                    <span>Effort ressenti (RPE)</span>
-                    <div class="chips" data-k="rpe" data-opts="1|2|3|4|5|6|7|8|9|10"></div>
-                    <div class="scale-hint">
-                        <span>facile</span>
-                        <span>max</span>
-                    </div>
-                </div>
-                <div class="field">
-                    <span>Énergie</span>
-                    <div class="chips" data-k="energie" data-opts="1|2|3|4|5"></div>
-                    <div class="scale-hint">
-                        <span>vide</span>
-                        <span>au top</span>
-                    </div>
-                </div>
-                <div class="field">
-                    <span>Courbatures</span>
-                    <div class="chips" data-k="courb" data-opts="1|2|3|4|5"></div>
-                    <div class="scale-hint">
-                        <span>aucune</span>
-                        <span>fortes</span>
-                    </div>
-                </div>
-                <div class="row2">
-                    <label class="field">
-                        <span>
-                            Sommeil la nuit d'avant 
-                            <em>(h)</em>
-                        </span>
-                        <input type="number" id="fSommeil" inputmode="decimal" step="0.5" min="0" max="14" placeholder="7">
-                    </label>
-                    <div class="field">
-                        <span>Règles aujourd'hui</span>
-                        <div class="chips" data-k="regles" data-opts="Oui|Non|Spotting"></div>
-                    </div>
-                </div>
-                <label class="field">
-                    <span>
-                        Note 
-                        <em>(stress, maladie, repas raté, déplacement…)</em>
-                    </span>
-                    <textarea id="fNote"></textarea>
-                </label>
-                <div class="actions">
-                    <button class="btn pri" type="submit">Enregistrer la séance</button>
-                    <span class="toast" id="toast" aria-live="polite"></span>
-                </div>
-            </form>
-        </section>
+  <!-- HOW-TO -->
+  <details>
+    <summary>Garder le journal sur ton écran d'accueil</summary>
+    <div class="body">
+      <b>iPhone (Safari)</b>
+      <ol class="how"><li>Touche le bouton Partager (carré avec une flèche).</li><li>Choisis « Sur l'écran d'accueil ».</li></ol>
+      <b>Android (Chrome)</b>
+      <ol class="how"><li>Touche ⋮ en haut à droite.</li><li>Choisis « Ajouter à l'écran d'accueil ».</li></ol>
+      <p class="muted small" style="margin:0">Ouvre toujours le journal depuis cette icône : tes données sont liées à ce navigateur.</p>
+    </div>
+  </details>
 
-        <!-- ENTRIES -->
-        <section class="card" aria-labelledby="listTitle">
-            <h2 id="listTitle">Mes séances</h2>
-            <div id="list" style="display:grid;gap:10px"></div>
-        </section>
+  <details id="backupBox">
+    <summary>Sauvegarder ou restaurer mes données</summary>
+    <div class="body">
+      <p style="margin:0">Tes données restent uniquement dans ce téléphone, personne d'autre ne les voit. Si tu vides ton navigateur ou changes de téléphone, elles disparaissent. Une fois par semaine, copie ta sauvegarde et colle-la dans tes Notes.</p>
+      <div class="actions"><button class="btn sm" id="copyBtn">Copier ma sauvegarde</button><span class="toast" id="copyToast" aria-live="polite"></span></div>
+      <textarea id="backupOut" readonly hidden aria-label="Sauvegarde à copier"></textarea>
+      <label class="field"><span>Restaurer : colle ta sauvegarde ici</span><textarea id="restoreIn" placeholder="Colle le texte copié depuis tes Notes"></textarea></label>
+      <div class="actions"><button class="btn ghost sm" id="restoreBtn">Restaurer</button></div>
+      <div class="confirm" id="restoreConfirm" hidden><span>Remplacer tout le journal actuel par cette sauvegarde ?</span><button class="btn pri sm" id="restoreYes">Oui, remplacer</button><button class="btn ghost sm" id="restoreNo">Annuler</button></div>
+      <span class="small" id="restoreMsg" aria-live="polite"></span>
+    </div>
+  </details>
 
-        <div class="callout c-info">
-            <span class="label">Ne conclus rien avant 2 cycles</span>
-            <span>Une mauvaise séance n'est pas une tendance. On cherche ce qui se répète chez toi. Comment lire tes données, c'est l'épisode 5.</span>
-        </div>
-        <div class="callout c-warn">
-            <span class="label">Ce journal observe, il ne diagnostique pas</span>
-            <span>Si tes règles disparaissent, deviennent très irrégulières, ou si la douleur t'empêche de t'entraîner, n'essaie pas de l'interpréter seule : parles-en à un médecin.</span>
-        </div>
+  <div class="callout c-accent">
+    <span class="label">Pourquoi ce journal</span>
+    <span>Programmer par phase avec un protocole générique n'a pas montré d'avantage (D'Souza 2026, McNulty 2020). La méta-analyse recommande une approche individualisée. Individualisée, ça commence par tes données.</span>
+  </div>
 
-        <!-- HOW-TO -->
-        <details>
-            <summary>Garder le journal sur ton écran d'accueil</summary>
-            <div class="body">
-                <b>iPhone (Safari)</b>
-                <ol class="how">
-                    <li>Touche le bouton Partager (carré avec une flèche).</li>
-                    <li>Choisis « Sur l'écran d'accueil ».</li>
-                </ol>
-                <b>Android (Chrome)</b>
-                <ol class="how">
-                    <li>Touche ⋮ en haut à droite.</li>
-                    <li>Choisis « Ajouter à l'écran d'accueil ».</li>
-                </ol>
-                <p class="muted small" style="margin:0">Ouvre toujours le journal depuis cette icône : tes données sont liées à ce navigateur.</p>
-            </div>
-        </details>
+  <footer><span><b>RECODE</b> · HER DECODE</span><span>@indianaafit</span></footer>
+</main>
 
-        <details id="backupBox">
-            <summary>Sauvegarder ou restaurer mes données</summary>
-            <div class="body">
-                <p style="margin:0">Tes données restent uniquement dans ce téléphone, personne d'autre ne les voit. Si tu vides ton navigateur ou changes de téléphone, elles disparaissent. Une fois par semaine, copie ta sauvegarde et colle-la dans tes Notes.</p>
-                <div class="actions">
-                    <button class="btn sm" id="copyBtn">Copier ma sauvegarde</button>
-                    <span class="toast" id="copyToast" aria-live="polite"></span>
-                </div>
-                <textarea id="backupOut" readonly hidden aria-label="Sauvegarde à copier"></textarea>
-                <label class="field">
-                    <span>Restaurer : colle ta sauvegarde ici</span>
-                    <textarea id="restoreIn" placeholder="Colle le texte copié depuis tes Notes"></textarea>
-                </label>
-                <div class="actions">
-                    <button class="btn ghost sm" id="restoreBtn">Restaurer</button>
-                </div>
-                <div class="confirm" id="restoreConfirm" hidden>
-                    <span>Remplacer tout le journal actuel par cette sauvegarde ?</span>
-                    <button class="btn pri sm" id="restoreYes">Oui, remplacer</button>
-                    <button class="btn ghost sm" id="restoreNo">Annuler</button>
-                </div>
-                <span class="small" id="restoreMsg" aria-live="polite"></span>
-            </div>
-        </details>
+<script>
+(function(){
+  const KEY = 'herdecode-journal-v1';
+  const $ = id => document.getElementById(id);
+  let storeOK = true;
+  let state = {cycles:[], entries:[]};
 
-        <div class="callout c-accent">
-            <span class="label">Pourquoi ce journal</span>
-            <span>Programmer par phase avec un protocole générique n'a pas montré d'avantage (D'Souza 2026, McNulty 2020). La méta-analyse recommande une approche individualisée. Individualisée, ça commence par tes données.</span>
-        </div>
+  try { const raw = localStorage.getItem(KEY); if (raw) state = JSON.parse(raw); localStorage.setItem(KEY+'-t','1'); localStorage.removeItem(KEY+'-t'); }
+  catch(e){ storeOK = false; }
+  if (!storeOK) $('noStore').hidden = false;
+  if (/Instagram|FBAN|FBAV/i.test(navigator.userAgent)) $('igBanner').hidden = false;
 
-        <footer>
-            <span>
-                <b>RECODE</b>
-                 · HER DECODE
-            </span>
-            <span>@indianaafit</span>
-        </footer>
-    </main>
+  function save(){ try{ localStorage.setItem(KEY, JSON.stringify(state)); }catch(e){ $('noStore').hidden = false; } }
+  const today = () => { const d=new Date(); d.setMinutes(d.getMinutes()-d.getTimezoneOffset()); return d.toISOString().slice(0,10); };
+  const dayDiff = (a,b) => Math.round((new Date(b+'T12:00')-new Date(a+'T12:00'))/864e5);
+  const fmt = s => new Date(s+'T12:00').toLocaleDateString('fr-FR',{day:'numeric',month:'short'});
+  function cycleFor(date){
+    const starts = state.cycles.map((c,i)=>({s:c,i})).filter(o=>o.s<=date).sort((a,b)=>a.s<b.s?1:-1);
+    if(!starts.length) return null;
+    return {n:starts[0].i+1, j:dayDiff(starts[0].s,date)+1};
+  }
 
-    <script>
-    (function() {
-        const KEY = 'herdecode-journal-v1';
-        const $ = id => document.getElementById(id);
-        let storeOK = true;
-        let state = {
-            cycles: [],
-            entries: []
-        };
+  /* cycle */
+  function renderCycle(){
+    if(!state.cycles.length){ $('cycleSetup').hidden=false; $('cycleNow').hidden=true; $('firstJ1').value=today(); return; }
+    $('cycleSetup').hidden=true; $('cycleNow').hidden=false;
+    const last = state.cycles[state.cycles.length-1];
+    $('dayNum').textContent = 'J'+(dayDiff(last,today())+1);
+    $('cycleLabel').textContent = 'Cycle '+state.cycles.length;
+    $('cycleSince').textContent = 'J1 le '+fmt(last);
+  }
+  $('saveJ1').onclick = () => { const v=$('firstJ1').value; if(!v) return; state.cycles=[v]; save(); renderCycle(); renderList(); };
+  $('newCycleBtn').onclick = () => { $('newCycleConfirm').hidden=false; };
+  $('newCycleNo').onclick = () => { $('newCycleConfirm').hidden=true; };
+  $('newCycleYes').onclick = () => { const t=today(); if(!state.cycles.includes(t)) state.cycles.push(t); state.cycles.sort(); save(); $('newCycleConfirm').hidden=true; renderCycle(); renderList(); };
 
-        try {
-            const raw = localStorage.getItem(KEY);
-            if (raw)
-                state = JSON.parse(raw);
-            localStorage.setItem(KEY + '-t', '1');
-            localStorage.removeItem(KEY + '-t');
-        }
-        catch (e) {
-            storeOK = false;
-        }
-        if (!storeOK)
-            $('noStore').hidden = false;
-        if (/Instagram|FBAN|FBAV/i.test(navigator.userAgent))
-            $('igBanner').hidden = false;
+  /* chips */
+  const picks = {};
+  document.querySelectorAll('.chips').forEach(g=>{
+    const k=g.dataset.k;
+    g.setAttribute('role','group');
+    g.dataset.opts.split('|').forEach(o=>{
+      const b=document.createElement('button'); b.type='button'; b.className='chip'; b.textContent=o; b.setAttribute('aria-pressed','false');
+      b.onclick=()=>{ const on=picks[k]===o; picks[k]=on?undefined:o; g.querySelectorAll('.chip').forEach(x=>x.setAttribute('aria-pressed', String(!on && x===b))); };
+      g.appendChild(b);
+    });
+  });
+  function resetForm(){
+    $('f').reset(); $('fDate').value=today();
+    Object.keys(picks).forEach(k=>picks[k]=undefined);
+    document.querySelectorAll('.chip').forEach(x=>x.setAttribute('aria-pressed','false'));
+  }
 
-        function save() {
-            try {
-                localStorage.setItem(KEY, JSON.stringify(state));
-            } catch (e) {
-                $('noStore').hidden = false;
-            }
-        }
-        const today = () => {
-            const d = new Date();
-            d.setMinutes(d.getMinutes() - d.getTimezoneOffset());
-            return d.toISOString().slice(0, 10);
-        };
-        const dayDiff = (a, b) => Math.round((new Date(b + 'T12:00') - new Date(a + 'T12:00')) / 864e5);
-        const fmt = s => new Date(s + 'T12:00').toLocaleDateString('fr-FR', {
-            day: 'numeric',
-            month: 'short'
-        });
-        function cycleFor(date) {
-            const starts = state.cycles.map((c, i) => ({
-                s: c,
-                i
-            })).filter(o => o.s <= date).sort((a, b) => a.s < b.s ? 1 : -1);
-            if (!starts.length)
-                return null;
-            return {
-                n: starts[0].i + 1,
-                j: dayDiff(starts[0].s, date) + 1
-            };
-        }
+  $('f').addEventListener('submit', e=>{
+    e.preventDefault();
+    const date=$('fDate').value;
+    if(!date){ $('toast').textContent='Ajoute la date de ta séance.'; return; }
+    state.entries.push({id:Date.now(), date, seance:$('fSeance').value.trim(), perf:picks.perf, rpe:picks.rpe, energie:picks.energie, courb:picks.courb, sommeil:$('fSommeil').value, regles:picks.regles, note:$('fNote').value.trim()});
+    save(); resetForm(); renderList();
+    $('toast').textContent='Séance enregistrée.'; setTimeout(()=>$('toast').textContent='',2500);
+  });
 
-        /* cycle */
-        function renderCycle() {
-            if (!state.cycles.length) {
-                $('cycleSetup').hidden = false;
-                $('cycleNow').hidden = true;
-                $('firstJ1').value = today();
-                return;
-            }
-            $('cycleSetup').hidden = true;
-            $('cycleNow').hidden = false;
-            const last = state.cycles[state.cycles.length - 1];
-            $('dayNum').textContent = 'J' + (dayDiff(last, today()) + 1);
-            $('cycleLabel').textContent = 'Cycle ' + state.cycles.length;
-            $('cycleSince').textContent = 'J1 le ' + fmt(last);
-        }
-        $('saveJ1').onclick = () => {
-            const v = $('firstJ1').value;
-            if (!v)
-                return;
-            state.cycles = [v];
-            save();
-            renderCycle();
-            renderList();
-        };
-        $('newCycleBtn').onclick = () => {
-            $('newCycleConfirm').hidden = false;
-        };
-        $('newCycleNo').onclick = () => {
-            $('newCycleConfirm').hidden = true;
-        };
-        $('newCycleYes').onclick = () => {
-            const t = today();
-            if (!state.cycles.includes(t))
-                state.cycles.push(t);
-            state.cycles.sort();
-            save();
-            $('newCycleConfirm').hidden = true;
-            renderCycle();
-            renderList();
-        };
+  /* list */
+  function metric(label,val,suffix){ return val ? `<span class="m"><i>${label}</i> ${esc(val)}${suffix||''}</span>` : ''; }
+  function esc(s){ return String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
+  function entryHTML(e, example){
+    const c = cycleFor(e.date);
+    return `<div class="entry${example?' example':''}" data-id="${e.id}">
+      <div class="e-top"><span class="jpill">${c?'J'+c.j:'J?'}</span><b>${esc(e.seance||'Séance')}</b><span class="date">${example?'Exemple':fmt(e.date)}</span></div>
+      <div class="metrics">${metric('Perf',e.perf)}${metric('RPE',e.rpe)}${metric('Énergie',e.energie,'/5')}${metric('Courb.',e.courb,'/5')}${metric('Sommeil',e.sommeil,' h')}${metric('Règles',e.regles)}</div>
+      ${e.note?`<div class="e-note">${esc(e.note)}</div>`:''}
+      ${example?'<div class="muted small">Cette ligne d\'exemple disparaît dès ta première séance.</div>':'<div><button class="del" type="button">Supprimer</button></div>'}
+    </div>`;
+  }
+  function renderList(){
+    const list=$('list');
+    if(!state.entries.length){
+      const ex={id:0,date:today(),seance:'Bas du corps',perf:'=',rpe:'8',energie:'3',courb:'2',sommeil:'7',regles:'Non',note:'Journée stressante au travail.'};
+      list.innerHTML = entryHTML(ex,true); return;
+    }
+    const groups={};
+    state.entries.slice().sort((a,b)=>a.date<b.date?1:-1).forEach(e=>{ const c=cycleFor(e.date); const k=c?c.n:0; (groups[k]=groups[k]||[]).push(e); });
+    list.innerHTML = Object.keys(groups).sort((a,b)=>b-a).map(k=>{
+      const n=groups[k].length;
+      return `<div class="cycle-h"><h3>${k>0?'Cycle '+k:'Avant ton premier J1'}</h3><span class="muted small">${n} séance${n>1?'s':''}</span></div>`+groups[k].map(e=>entryHTML(e,false)).join('');
+    }).join('');
+  }
+  $('list').addEventListener('click', e=>{
+    const card=e.target.closest('.entry'); if(!card) return;
+    if(e.target.classList.contains('del')){
+      e.target.parentElement.innerHTML='<div class="confirm"><span>Supprimer cette séance ?</span><button class="btn pri sm" data-act="yes" type="button">Supprimer</button><button class="btn ghost sm" data-act="no" type="button">Annuler</button></div>';
+    } else if(e.target.dataset.act==='yes'){
+      state.entries=state.entries.filter(x=>String(x.id)!==card.dataset.id); save(); renderList();
+    } else if(e.target.dataset.act==='no'){ renderList(); }
+  });
 
-        /* chips */
-        const picks = {};
-        document.querySelectorAll('.chips').forEach(g => {
-            const k = g.dataset.k;
-            g.setAttribute('role', 'group');
-            g.dataset.opts.split('|').forEach(o => {
-                const b = document.createElement('button');
-                b.type = 'button';
-                b.className = 'chip';
-                b.textContent = o;
-                b.setAttribute('aria-pressed', 'false');
-                b.onclick = () => {
-                    const on = picks[k] === o;
-                    picks[k] = on ? undefined : o;
-                    g.querySelectorAll('.chip').forEach(x => x.setAttribute('aria-pressed', String(!on && x === b)));
-                };
-                g.appendChild(b);
-            });
-        });
-        function resetForm() {
-            $('f').reset();
-            $('fDate').value = today();
-            Object.keys(picks).forEach(k => picks[k] = undefined);
-            document.querySelectorAll('.chip').forEach(x => x.setAttribute('aria-pressed', 'false'));
-        }
+  /* backup */
+  $('copyBtn').onclick = () => {
+    const txt = 'HERDECODE:'+JSON.stringify(state);
+    const out=$('backupOut'); out.value=txt;
+    navigator.clipboard.writeText(txt).then(()=>{ out.hidden=true; $('copyToast').textContent='Copié. Colle-le dans tes Notes.'; })
+      .catch(()=>{ out.hidden=false; out.focus(); out.select(); $('copyToast').textContent='Sélectionne le texte ci-dessous et copie-le.'; });
+  };
+  let pending=null;
+  $('restoreBtn').onclick = () => {
+    $('restoreMsg').textContent='';
+    try{
+      const raw=$('restoreIn').value.trim().replace(/^HERDECODE:/,'');
+      const d=JSON.parse(raw);
+      if(!Array.isArray(d.cycles)||!Array.isArray(d.entries)) throw 0;
+      pending=d; $('restoreConfirm').hidden=false;
+    }catch(e){ $('restoreMsg').textContent='Ce texte n\'est pas une sauvegarde du journal. Recopie-le en entier depuis tes Notes.'; }
+  };
+  $('restoreNo').onclick = () => { pending=null; $('restoreConfirm').hidden=true; };
+  $('restoreYes').onclick = () => { if(!pending) return; state=pending; pending=null; save(); $('restoreConfirm').hidden=true; $('restoreIn').value=''; $('restoreMsg').textContent='Journal restauré : '+state.entries.length+' séance(s).'; renderCycle(); renderList(); };
 
-        $('f').addEventListener('submit', e => {
-            e.preventDefault();
-            const date = $('fDate').value;
-            if (!date) {
-                $('toast').textContent = 'Ajoute la date de ta séance.';
-                return;
-            }
-            state.entries.push({
-                id: Date.now(),
-                date,
-                seance: $('fSeance').value.trim(),
-                perf: picks.perf,
-                rpe: picks.rpe,
-                energie: picks.energie,
-                courb: picks.courb,
-                sommeil: $('fSommeil').value,
-                regles: picks.regles,
-                note: $('fNote').value.trim()
-            });
-            save();
-            resetForm();
-            renderList();
-            $('toast').textContent = 'Séance enregistrée.';
-            setTimeout(() => $('toast').textContent = '', 2500);
-        });
-
-        /* list */
-        function metric(label, val, suffix) {
-            return val ? `<span class="m"><i>${label}</i> ${esc(val)}${suffix || ''}</span>` : '';
-        }
-        function esc(s) {
-            return String(s).replace(/[&<>"]/g, c => ({
-                '&': '&amp;',
-                '<': '&lt;',
-                '>': '&gt;',
-                '"': '&quot;'
-            }[c]));
-        }
-        function entryHTML(e, example) {
-            const c = cycleFor(e.date);
-            return `<div class="entry${example ? ' example' : ''}" data-id="${e.id}">
-                  <div class="e-top"><span class="jpill">${c ? 'J' + c.j : 'J?'}</span><b>${esc(e.seance || 'Séance')}</b><span class="date">${example ? 'Exemple' : fmt(e.date)}</span></div>
-                  <div class="metrics">${metric('Perf', e.perf)}${metric('RPE', e.rpe)}${metric('Énergie', e.energie, '/5')}${metric('Courb.', e.courb, '/5')}${metric('Sommeil', e.sommeil, ' h')}${metric('Règles', e.regles)}</div>
-                  ${e.note ? `<div class="e-note">${esc(e.note)}</div>` : ''}
-                  ${example ? '<div class="muted small">Cette ligne d\'exemple disparaît dès ta première séance.</div>' : '<div><button class="del" type="button">Supprimer</button></div>'}
-                </div>`;
-        }
-        function renderList() {
-            const list = $('list');
-            if (!state.entries.length) {
-                const ex = {
-                    id: 0,
-                    date: today(),
-                    seance: 'Bas du corps',
-                    perf: '=',
-                    rpe: '8',
-                    energie: '3',
-                    courb: '2',
-                    sommeil: '7',
-                    regles: 'Non',
-                    note: 'Journée stressante au travail.'
-                };
-                list.innerHTML = entryHTML(ex, true);
-                return;
-            }
-            const groups = {};
-            state.entries.slice().sort((a, b) => a.date < b.date ? 1 : -1).forEach(e => {
-                const c = cycleFor(e.date);
-                const k = c ? c.n : 0;
-                (groups[k] = groups[k] || []).push(e);
-            });
-            list.innerHTML = Object.keys(groups).sort((a, b) => b - a).map(k => {
-                const n = groups[k].length;
-                return `<div class="cycle-h"><h3>${k > 0 ? 'Cycle ' + k : 'Avant ton premier J1'}</h3><span class="muted small">${n} séance${n > 1 ? 's' : ''}</span></div>` + groups[k].map(e => entryHTML(e, false)).join('');
-            }).join('');
-        }
-        $('list').addEventListener('click', e => {
-            const card = e.target.closest('.entry');
-            if (!card)
-                return;
-            if (e.target.classList.contains('del')) {
-                e.target.parentElement.innerHTML = '<div class="confirm"><span>Supprimer cette séance ?</span><button class="btn pri sm" data-act="yes" type="button">Supprimer</button><button class="btn ghost sm" data-act="no" type="button">Annuler</button></div>';
-            } else if (e.target.dataset.act === 'yes') {
-                state.entries = state.entries.filter(x => String(x.id) !== card.dataset.id);
-                save();
-                renderList();
-            } else if (e.target.dataset.act === 'no') {
-                renderList();
-            }
-        });
-
-        /* backup */
-        $('copyBtn').onclick = () => {
-            const txt = 'HERDECODE:' + JSON.stringify(state);
-            const out = $('backupOut');
-            out.value = txt;
-            navigator.clipboard.writeText(txt).then(() => {
-                out.hidden = true;
-                $('copyToast').textContent = 'Copié. Colle-le dans tes Notes.';
-            })
-            .catch(() => {
-                out.hidden = false;
-                out.focus();
-                out.select();
-                $('copyToast').textContent = 'Sélectionne le texte ci-dessous et copie-le.';
-            });
-        };
-        let pending = null;
-        $('restoreBtn').onclick = () => {
-            $('restoreMsg').textContent = '';
-            try {
-                const raw = $('restoreIn').value.trim().replace(/^HERDECODE:/, '');
-                const d = JSON.parse(raw);
-                if (!Array.isArray(d.cycles) || !Array.isArray(d.entries))
-                    throw 0;
-                pending = d;
-                $('restoreConfirm').hidden = false;
-            } catch (e) {
-                $('restoreMsg').textContent = 'Ce texte n\'est pas une sauvegarde du journal. Recopie-le en entier depuis tes Notes.';
-            }
-        };
-        $('restoreNo').onclick = () => {
-            pending = null;
-            $('restoreConfirm').hidden = true;
-        };
-        $('restoreYes').onclick = () => {
-            if (!pending)
-                return;
-            state = pending;
-            pending = null;
-            save();
-            $('restoreConfirm').hidden = true;
-            $('restoreIn').value = '';
-            $('restoreMsg').textContent = 'Journal restauré : ' + state.entries.length + ' séance(s).';
-            renderCycle();
-            renderList();
-        };
-
-        $('fDate').value = today();
-        renderCycle();
-        renderList();
-    })();
-    </script>
+  $('fDate').value=today();
+  renderCycle(); renderList();
+})();
+</script>
 </body>
 </html>
